@@ -13,8 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.organisation.Organisation;
 import uk.co.aosd.onto.reference.OntologyServicesImpl;
+import uk.co.aosd.onto.reference.OrganisationImpl;
 import uk.co.aosd.onto.reference.PossibleWorldImpl;
 import uk.co.aosd.onto.reference.events.AppointedImpl;
 import uk.co.aosd.onto.reference.events.BirthImpl;
@@ -25,7 +25,7 @@ import uk.co.aosd.onto.reference.events.DissolvedImpl;
 import uk.co.aosd.onto.reference.events.FormedImpl;
 import uk.co.aosd.onto.reference.events.RemovedImpl;
 import uk.co.aosd.onto.reference.events.ResignifiedImpl;
-import uk.co.aosd.onto.services.OntologyServices;
+import uk.co.aosd.onto.signifying.Signifier;
 
 /**
  * Test that Organisations can be created.
@@ -34,7 +34,7 @@ import uk.co.aosd.onto.services.OntologyServices;
  */
 public class OrganisationTest {
 
-    private static final OntologyServices svc = new OntologyServicesImpl();
+    private static final OntologyServicesImpl svc = new OntologyServicesImpl();
 
     private static final Instant FROM = Instant.parse("2024-01-01T00:00:00.00Z");
     private static final Instant TO = null;
@@ -69,8 +69,8 @@ public class OrganisationTest {
         final var acmeSignifier2 = svc.createSignifier(randString(), "ACME Ltd", english, acmeRenamed, notRenamed);
 
         // The signifiers need to be added to Classes (Sets)
-        final var person1Names = svc.createClass(randString(), Set.of(personSignifier1, personSignifier2));
-        final var orgNames = svc.createClass(randString(), Set.of(acmeSignifier1, acmeSignifier2));
+        final Class<Signifier<String, ResignifiedImpl>> person1Names = svc.createClass(randString(), Set.of(personSignifier1, personSignifier2));
+        final Class<Signifier<String, ResignifiedImpl>> orgNames = svc.createClass(randString(), Set.of(acmeSignifier1, acmeSignifier2));
 
         // Create the languages that the person uses.
         final var languages = svc.createClass(randString(), Set.of(english, german));
@@ -84,7 +84,7 @@ public class OrganisationTest {
         final var acmeTeamMemberships = svc.createClass(randString(), Set.of(ceoMembership));
 
         // Create an organisation with memberships and no sub-units.
-        final Class<Organisation> units = svc.createClass(randString(), Set.of());
+        final Class<OrganisationImpl<CeoRole>> units = svc.createClass(randString(), Set.of());
         final var acme = svc.createOrganisation(randString(), acmeTeamMemberships, "ACME makes widgets", units, orgNames, incorporated, dissolved);
 
         assertNotNull(acme);

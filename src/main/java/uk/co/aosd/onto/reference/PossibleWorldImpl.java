@@ -5,11 +5,11 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.co.aosd.onto.events.Created;
-import uk.co.aosd.onto.events.Deleted;
 import uk.co.aosd.onto.foundation.Event;
 import uk.co.aosd.onto.foundation.Individual;
 import uk.co.aosd.onto.foundation.PossibleWorld;
+import uk.co.aosd.onto.reference.events.CreatedImpl;
+import uk.co.aosd.onto.reference.events.DeletedImpl;
 
 /**
  * An implementaton of the PossibleWorld interface.
@@ -19,9 +19,9 @@ import uk.co.aosd.onto.foundation.PossibleWorld;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PossibleWorldImpl implements PossibleWorld {
+public class PossibleWorldImpl implements PossibleWorld<CreatedImpl, DeletedImpl> {
     private String identifier;
     private Set<Individual<? extends Event, ? extends Event>> parts;
-    private Created beginning;
-    private Deleted ending;
+    private CreatedImpl beginning;
+    private DeletedImpl ending;
 }

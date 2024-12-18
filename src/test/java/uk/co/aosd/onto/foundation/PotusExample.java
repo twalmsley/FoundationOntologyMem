@@ -10,19 +10,16 @@ import java.util.UUID;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.events.Appointed;
-import uk.co.aosd.onto.events.Birth;
-import uk.co.aosd.onto.events.Death;
 import uk.co.aosd.onto.events.Dissolved;
 import uk.co.aosd.onto.events.Formed;
-import uk.co.aosd.onto.events.Removed;
-import uk.co.aosd.onto.events.Resignified;
-import uk.co.aosd.onto.organisation.Membership;
-import uk.co.aosd.onto.organisation.Organisation;
+import uk.co.aosd.onto.reference.LanguageImpl;
+import uk.co.aosd.onto.reference.MembershipImpl;
 import uk.co.aosd.onto.reference.OntologyServicesImpl;
+import uk.co.aosd.onto.reference.OrganisationImpl;
 import uk.co.aosd.onto.reference.events.AppointedImpl;
 import uk.co.aosd.onto.reference.events.BirthImpl;
 import uk.co.aosd.onto.reference.events.DeathImpl;
@@ -30,7 +27,6 @@ import uk.co.aosd.onto.reference.events.DissolvedImpl;
 import uk.co.aosd.onto.reference.events.FormedImpl;
 import uk.co.aosd.onto.reference.events.RemovedImpl;
 import uk.co.aosd.onto.reference.events.ResignifiedImpl;
-import uk.co.aosd.onto.services.OntologyServices;
 import uk.co.aosd.onto.signifying.Signifier;
 
 /**
@@ -45,7 +41,7 @@ import uk.co.aosd.onto.signifying.Signifier;
  */
 public class PotusExample {
 
-    private static final OntologyServices svc = new OntologyServicesImpl();
+    private static final OntologyServicesImpl svc = new OntologyServicesImpl();
 
     private static final Instant JAN_20TH_2025_END = Instant.parse("2025-01-20T23:59:59.99Z");
     private static final Instant JAN_20TH_2025_START = Instant.parse("2025-01-20T00:00:00.00Z");
@@ -59,23 +55,22 @@ public class PotusExample {
     private static final Instant JUNE_4TH_1776_START = Instant.parse("1776-06-04T00:00:00.00Z");
 
     private static final DNA UNKNOWN_DNA = null;
-    private static final Appointed TRUMP_CITIZENSHIP_BEGINS = new AppointedImpl(randStr(), JUNE_14TH_1946_START, JUNE_14TH_1946_END);
-    private static final Appointed TRUMP_POTUS_START_1 = new AppointedImpl(randStr(), JAN_20TH_2017_START, JAN_20TH_2017_END);
-    private static final Appointed TRUMP_POTUS_START_2 = new AppointedImpl(randStr(), JAN_20TH_2025_START, JAN_20TH_2025_END);
-    private static final Birth TRUMP_BORN = new BirthImpl(randStr(), JUNE_14TH_1946_START, JUNE_14TH_1946_END);
-    private static final Death TRUMP_DIED = new DeathImpl(randStr(), null, null);
-    private static final Dissolved USA_TO = new DissolvedImpl(randStr(), null, null);
-    private static final Formed USA_FROM = new FormedImpl(randStr(), JUNE_4TH_1776_START, JUNE_4TH_1776_END);
-    private static final Removed TRUMP_CITIZENSHIP_ENDS = new RemovedImpl(randStr(), null, null);
-    private static final Removed TRUMP_POTUS_END_1 = new RemovedImpl(randStr(), JAN_20TH_2021_START, JAN_20TH_2021_END);
-    private static final Removed TRUMP_POTUS_END_2 = new RemovedImpl(randStr(), null, null);
-    private static final Resignified TRUMP_NAMED = new ResignifiedImpl(randStr(), JUNE_14TH_1946_START, JUNE_14TH_1946_END);
-    private static final Resignified TRUMP_RENAMED = new ResignifiedImpl(randStr(), null, null);
-    private static final Resignified USA_NAMED = new ResignifiedImpl(randStr(), JUNE_4TH_1776_START, JUNE_4TH_1776_END);
-    private static final Resignified USA_RENAMED = new ResignifiedImpl(randStr(), null, null);
+    private static final AppointedImpl TRUMP_CITIZENSHIP_BEGINS = new AppointedImpl(randStr(), JUNE_14TH_1946_START, JUNE_14TH_1946_END);
+    private static final AppointedImpl TRUMP_POTUS_START_1 = new AppointedImpl(randStr(), JAN_20TH_2017_START, JAN_20TH_2017_END);
+    private static final AppointedImpl TRUMP_POTUS_START_2 = new AppointedImpl(randStr(), JAN_20TH_2025_START, JAN_20TH_2025_END);
+    private static final BirthImpl TRUMP_BORN = new BirthImpl(randStr(), JUNE_14TH_1946_START, JUNE_14TH_1946_END);
+    private static final DeathImpl TRUMP_DIED = new DeathImpl(randStr(), null, null);
+    private static final DissolvedImpl USA_TO = new DissolvedImpl(randStr(), null, null);
+    private static final FormedImpl USA_FROM = new FormedImpl(randStr(), JUNE_4TH_1776_START, JUNE_4TH_1776_END);
+    private static final RemovedImpl TRUMP_CITIZENSHIP_ENDS = new RemovedImpl(randStr(), null, null);
+    private static final RemovedImpl TRUMP_POTUS_END_1 = new RemovedImpl(randStr(), JAN_20TH_2021_START, JAN_20TH_2021_END);
+    private static final RemovedImpl TRUMP_POTUS_END_2 = new RemovedImpl(randStr(), null, null);
+    private static final ResignifiedImpl TRUMP_NAMED = new ResignifiedImpl(randStr(), JUNE_14TH_1946_START, JUNE_14TH_1946_END);
+    private static final ResignifiedImpl TRUMP_RENAMED = new ResignifiedImpl(randStr(), null, null);
+    private static final ResignifiedImpl USA_NAMED = new ResignifiedImpl(randStr(), JUNE_4TH_1776_START, JUNE_4TH_1776_END);
+    private static final ResignifiedImpl USA_RENAMED = new ResignifiedImpl(randStr(), null, null);
     private static final String PURPOSE = "To occupy its territory and serve its people.";
 
-    private static final PresidentOfTheUsa PRESIDENT_USA = new PresidentOfTheUsa(randStr(), "President of the United States of America");
     private static final CitizenOfTheUsa CITIZEN_USA = new CitizenOfTheUsa(randStr(), "Citizen of the United States of America");
 
     @Test
@@ -83,28 +78,28 @@ public class PotusExample {
 
         // Create Donald Trump
         final var usEnglish = svc.createLanguage(randStr(), "American English");
-        final var languages = svc.createClass(randStr(), Set.of(usEnglish));
+        final Class<LanguageImpl> languages = svc.createClass(randStr(), Set.of(usEnglish));
         final var personSignifier1 = svc.createSignifier(randStr(), "Donald Trump", usEnglish, TRUMP_NAMED, TRUMP_RENAMED);
-        final var person1Names = svc.createClass(randStr(), Set.of(personSignifier1));
+        final Class<Signifier<String, ResignifiedImpl>> person1Names = svc.createClass(randStr(), Set.of(personSignifier1));
 
         final var donaldTrump = svc.createHuman(randStr(), TRUMP_BORN, TRUMP_DIED, person1Names, usEnglish, languages, UNKNOWN_DNA);
 
         // Create the names of the USA
-        final var usaSignifier1 = svc.createSignifier(randStr(), "USA", usEnglish, USA_NAMED, USA_RENAMED);
-        final var usaSignifier2 = svc.createSignifier(randStr(), "United States of America", usEnglish, USA_NAMED, USA_RENAMED);
-        final var usaSignifier3 = svc.createSignifier(randStr(), "US", usEnglish, USA_NAMED, USA_RENAMED);
-        final var usaSignifier4 = svc.createSignifier(randStr(), "United States", usEnglish, USA_NAMED, USA_RENAMED);
-        final var usaSignifier5 = svc.createSignifier(randStr(), "America", usEnglish, USA_NAMED, USA_RENAMED);
-        final var setOfSignifiers = Set.of(usaSignifier1, usaSignifier2, usaSignifier3, usaSignifier4, usaSignifier5);
+        final Signifier<String, ResignifiedImpl> usaSignifier1 = svc.createSignifier(randStr(), "USA", usEnglish, USA_NAMED, USA_RENAMED);
+        final Signifier<String, ResignifiedImpl> usaSignifier2 = svc.createSignifier(randStr(), "United States of America", usEnglish, USA_NAMED, USA_RENAMED);
+        final Signifier<String, ResignifiedImpl> usaSignifier3 = svc.createSignifier(randStr(), "US", usEnglish, USA_NAMED, USA_RENAMED);
+        final Signifier<String, ResignifiedImpl> usaSignifier4 = svc.createSignifier(randStr(), "United States", usEnglish, USA_NAMED, USA_RENAMED);
+        final Signifier<String, ResignifiedImpl> usaSignifier5 = svc.createSignifier(randStr(), "America", usEnglish, USA_NAMED, USA_RENAMED);
+        final Set<Signifier<String, ResignifiedImpl>> setOfSignifiers = Set.of(usaSignifier1, usaSignifier2, usaSignifier3, usaSignifier4, usaSignifier5);
         final var namesOfTheUsa = svc.createClass(randStr(), setOfSignifiers);
 
         // Create the name of the USA Government
         final var usaGovSignifier1 = svc.createSignifier(randStr(), "The Government of the United States of America", usEnglish, USA_NAMED, USA_RENAMED);
-        final var namesOfTheUsaGov = svc.createClass(randStr(), Set.of(usaGovSignifier1));
+        final Class<Signifier<String, ResignifiedImpl>> namesOfTheUsaGov = svc.createClass(randStr(), Set.of(usaGovSignifier1));
 
         // Register Donald Trump's memberships of the US Government in the role of POTUS
-        final var potus1 = svc.createMembership(randStr(), donaldTrump, PRESIDENT_USA, TRUMP_POTUS_START_1, TRUMP_POTUS_END_1);
-        final var potus2 = svc.createMembership(randStr(), donaldTrump, PRESIDENT_USA, TRUMP_POTUS_START_2, TRUMP_POTUS_END_2);
+        final var potus1 = svc.createMembership(randStr(), donaldTrump, CITIZEN_USA, TRUMP_POTUS_START_1, TRUMP_POTUS_END_1);
+        final var potus2 = svc.createMembership(randStr(), donaldTrump, CITIZEN_USA, TRUMP_POTUS_START_2, TRUMP_POTUS_END_2);
         final var memberships = svc.createClass(randStr(), Set.of(potus1, potus2));
 
         // Register Donald Trump as a member of the USA in the role of citizen.
@@ -112,16 +107,16 @@ public class PotusExample {
         final var citizenships = svc.createClass(randStr(), Set.of(citizen1));
 
         // Create the US Government
-        final Class<Organisation> units = svc.createClass(randStr(), Set.of());
+        final Class<OrganisationImpl<CitizenOfTheUsa>> units = svc.createClass(randStr(), Set.of());
         final var usGovt = svc.createOrganisation(randStr(), memberships, "To govern the USA", units, namesOfTheUsaGov, USA_FROM,
             USA_TO);
 
         // Sub-organisations of the USA
-        final var usaUnits = svc.createClass(randStr(), Set.of(usGovt));
+        final Class<OrganisationImpl<CitizenOfTheUsa>> usaUnits = svc.createClass(randStr(), Set.of(usGovt));
 
         // Create the USA
         final var usaTerritory = new Territory(randStr(), USA_FROM, USA_TO);
-        final var usa = new Nation<>(randStr(), usaTerritory, citizenships, PURPOSE, namesOfTheUsa, usaUnits, USA_FROM, USA_TO);
+        final var usa = new Nation(randStr(), usaTerritory, citizenships, PURPOSE, namesOfTheUsa, usaUnits, USA_FROM, USA_TO);
 
         assertNotNull(usa);
 
@@ -140,15 +135,16 @@ public class PotusExample {
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class Nation<R extends Role> implements Organisation {
+@EqualsAndHashCode(callSuper = true)
+class Nation extends OrganisationImpl<CitizenOfTheUsa> {
     private String identifier;
     private Territory territory;
-    private Class<Membership<R>> members;
+    private Class<MembershipImpl<CitizenOfTheUsa>> members;
     private String purpose;
-    private Class<Signifier<String>> names;
-    private Class<Organisation> units;
-    private Formed beginning;
-    private Dissolved ending;
+    private Class<Signifier<String, ResignifiedImpl>> names;
+    private Class<OrganisationImpl<CitizenOfTheUsa>> units;
+    private FormedImpl beginning;
+    private DissolvedImpl ending;
 }
 
 @Data
@@ -158,14 +154,6 @@ class Territory implements Individual<Formed, Dissolved> {
     private String identifier;
     private Formed beginning;
     private Dissolved ending;
-}
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-class PresidentOfTheUsa implements Role {
-    private String identifier;
-    private String name;
 }
 
 @Data

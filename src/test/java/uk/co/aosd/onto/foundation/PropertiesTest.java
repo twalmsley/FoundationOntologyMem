@@ -18,7 +18,6 @@ import uk.co.aosd.onto.events.Scrapped;
 import uk.co.aosd.onto.reference.OntologyServicesImpl;
 import uk.co.aosd.onto.reference.events.BuiltImpl;
 import uk.co.aosd.onto.reference.events.ScrappedImpl;
-import uk.co.aosd.onto.services.OntologyServices;
 import uk.co.aosd.onto.units.Units;
 import uk.co.aosd.onto.units.Units.Kilograms;
 import uk.co.aosd.onto.units.Units.Meters;
@@ -30,7 +29,7 @@ import uk.co.aosd.onto.units.Units.Meters;
  */
 public class PropertiesTest {
 
-    private static final OntologyServices svc = new OntologyServicesImpl();
+    private static final OntologyServicesImpl svc = new OntologyServicesImpl();
 
     private static final Instant LIFE_START_TIME = Instant.parse("2024-01-01T12:00:00.00Z");
     private static final Instant LIFE_END_TIME = Instant.parse("2025-01-01T12:00:00.00Z");

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import uk.co.aosd.onto.reference.OntologyServicesImpl;
 import uk.co.aosd.onto.reference.events.AggregatedImpl;
 import uk.co.aosd.onto.reference.events.DisaggregatedImpl;
-import uk.co.aosd.onto.services.OntologyServices;
 import uk.co.aosd.onto.units.Units;
 
 /**
@@ -19,7 +18,7 @@ import uk.co.aosd.onto.units.Units;
  */
 public class AggregationTest {
 
-    private static final OntologyServices svc = new OntologyServicesImpl();
+    private static final OntologyServicesImpl svc = new OntologyServicesImpl();
 
     @Test
     public void test() {

@@ -5,10 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.co.aosd.onto.biological.DNA;
 import uk.co.aosd.onto.biological.Human;
-import uk.co.aosd.onto.events.Birth;
-import uk.co.aosd.onto.events.Death;
 import uk.co.aosd.onto.foundation.Class;
-import uk.co.aosd.onto.language.Language;
+import uk.co.aosd.onto.reference.events.BirthImpl;
+import uk.co.aosd.onto.reference.events.DeathImpl;
+import uk.co.aosd.onto.reference.events.ResignifiedImpl;
 import uk.co.aosd.onto.signifying.Signifier;
 
 /**
@@ -19,12 +19,12 @@ import uk.co.aosd.onto.signifying.Signifier;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HumanImpl implements Human {
+public class HumanImpl implements Human<BirthImpl, DeathImpl, ResignifiedImpl, LanguageImpl> {
     private String identifier;
-    private Birth beginning;
-    private Death ending;
-    private Class<Signifier<String>> names;
-    private Language nativeLanguage;
-    private Class<Language> languages;
+    private BirthImpl beginning;
+    private DeathImpl ending;
+    private Class<Signifier<String, ResignifiedImpl>> names;
+    private LanguageImpl nativeLanguage;
+    private Class<LanguageImpl> languages;
     private DNA dna;
 }

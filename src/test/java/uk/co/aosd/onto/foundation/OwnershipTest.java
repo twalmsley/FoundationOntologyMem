@@ -10,8 +10,8 @@ import java.util.Set;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.biological.Human;
-import uk.co.aosd.onto.language.Language;
+import uk.co.aosd.onto.reference.HumanImpl;
+import uk.co.aosd.onto.reference.LanguageImpl;
 import uk.co.aosd.onto.reference.OntologyServicesImpl;
 import uk.co.aosd.onto.reference.TransferringOfOwnershipImpl;
 import uk.co.aosd.onto.reference.events.BirthImpl;
@@ -23,7 +23,7 @@ import uk.co.aosd.onto.reference.events.StartedImpl;
 import uk.co.aosd.onto.reference.events.StoppedImpl;
 import uk.co.aosd.onto.reference.events.TransferredFromImpl;
 import uk.co.aosd.onto.reference.events.TransferredToImpl;
-import uk.co.aosd.onto.services.OntologyServices;
+import uk.co.aosd.onto.signifying.Signifier;
 
 /**
  * Test the ownership classes and services.
@@ -32,7 +32,7 @@ import uk.co.aosd.onto.services.OntologyServices;
  */
 public class OwnershipTest {
 
-    private static final OntologyServices svc = new OntologyServicesImpl();
+    private static final OntologyServicesImpl svc = new OntologyServicesImpl();
 
     // We're not recording DNA
     private static final DNA DNA = svc.createDna("unknown", null);
@@ -106,25 +106,25 @@ public class OwnershipTest {
         return car;
     }
 
-    private Human getBob(final DNA dna, final Language english, final Class<Language> languages) {
+    private HumanImpl getBob(final DNA dna, final LanguageImpl english, final Class<LanguageImpl> languages) {
         final var bobBorn = new BirthImpl("bobBorn", MAY_24TH_1941_START, MAY_24TH_1941_END);
         final var bobDied = new DeathImpl("bobDied", null, null);
         final var bobNamed = new ResignifiedImpl("bobNamed", null, null);
         final var bobRenamed = new ResignifiedImpl("bobRenamed", null, null);
         final var bobName = svc.createSignifier("bobName", "Bob Dylan", english, bobNamed, bobRenamed);
-        final var bobNames = Set.of(bobName);
+        final Set<Signifier<String, ResignifiedImpl>> bobNames = Set.of(bobName);
         final var bobNamesClass = svc.createClass("bobNames", bobNames);
         final var bob = svc.createHuman("bob", bobBorn, bobDied, bobNamesClass, english, languages, dna);
         return bob;
     }
 
-    private Human getAlice(final DNA dna, final Language english, final Class<Language> languages) {
+    private HumanImpl getAlice(final DNA dna, final LanguageImpl english, final Class<LanguageImpl> languages) {
         final var aliceBorn = new BirthImpl("aliceBorn", FEB_4TH_1948_START, FEB_4TH_1948_END);
         final var aliceDied = new DeathImpl("aliceDied", null, null);
         final var aliceNamed = new ResignifiedImpl("aliceNamed", null, null);
         final var aliceRenamed = new ResignifiedImpl("aliceRenamed", null, null);
         final var aliceName = svc.createSignifier("aliceName", "Alice Cooper", english, aliceNamed, aliceRenamed);
-        final var aliceNames = Set.of(aliceName);
+        final Set<Signifier<String, ResignifiedImpl>> aliceNames = Set.of(aliceName);
         final var aliceNamesClass = svc.createClass("aliceNames", aliceNames);
         final var alice = svc.createHuman("alice", aliceBorn, aliceDied, aliceNamesClass, english, languages, dna);
         return alice;

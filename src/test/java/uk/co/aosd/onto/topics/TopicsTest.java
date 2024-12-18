@@ -12,17 +12,12 @@ import java.util.UUID;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.biological.Human;
-import uk.co.aosd.onto.events.Appointed;
-import uk.co.aosd.onto.events.Birth;
 import uk.co.aosd.onto.events.Created;
-import uk.co.aosd.onto.events.Death;
 import uk.co.aosd.onto.events.Deleted;
-import uk.co.aosd.onto.events.Removed;
-import uk.co.aosd.onto.events.Resignified;
 import uk.co.aosd.onto.events.Started;
 import uk.co.aosd.onto.events.Stopped;
 import uk.co.aosd.onto.foundation.Activity;
@@ -32,8 +27,6 @@ import uk.co.aosd.onto.foundation.Individual;
 import uk.co.aosd.onto.foundation.JsonUtils;
 import uk.co.aosd.onto.foundation.Role;
 import uk.co.aosd.onto.foundation.UniquelyIdentifiable;
-import uk.co.aosd.onto.language.Language;
-import uk.co.aosd.onto.organisation.Membership;
 import uk.co.aosd.onto.reference.ClassImpl;
 import uk.co.aosd.onto.reference.DNAImpl;
 import uk.co.aosd.onto.reference.HumanImpl;
@@ -62,15 +55,15 @@ public class TopicsTest {
     @Test
     public void test() throws JsonProcessingException {
         // Create an object to represent the User
-        final Language english = new LanguageImpl(randString(), "English");
-        final Birth birth = new BirthImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
-        final Death death = new DeathImpl(randString(), null, null);
-        final Class<Language> languages = new ClassImpl<>(randString(), Set.of(english));
-        final DNA dna = new DNAImpl(randString(), "gattaca");
-        final Resignified userNamedFrom = new ResignifiedImpl(randString(), null, null);
-        final Resignified userRenamedTo = new ResignifiedImpl(randString(), null, null);
-        final Signifier<String> username = new SignifierImpl<String>(randString(), "user1", english, userNamedFrom, userRenamedTo);
-        final Class<Signifier<String>> usernames = new ClassImpl<>(randString(), Set.of(username));
+        final var english = new LanguageImpl(randString(), "English");
+        final var birth = new BirthImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
+        final var death = new DeathImpl(randString(), null, null);
+        final Class<LanguageImpl> languages = new ClassImpl<>(randString(), Set.of(english));
+        final var dna = new DNAImpl(randString(), "gattaca");
+        final var userNamedFrom = new ResignifiedImpl(randString(), null, null);
+        final var userRenamedTo = new ResignifiedImpl(randString(), null, null);
+        final Signifier<String, ResignifiedImpl> username = new SignifierImpl<String>(randString(), "user1", english, userNamedFrom, userRenamedTo);
+        final Class<Signifier<String, ResignifiedImpl>> usernames = new ClassImpl<>(randString(), Set.of(username));
         final var user1 = new User(randString(), birth, death, usernames, english, languages, dna);
         //
         // Create a Topic. A topic is an activity for researching some subject area that
@@ -78,23 +71,23 @@ public class TopicsTest {
         // set of contibutors. It can refer to source information which in turn can
         // refer to individuals, and individuals can refer to each other.
         //
-        final Started from = new StartedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
-        final Stopped to = new StoppedImpl(randString(), null, null);
-        final Class<Membership<OwnerRole>> owners = new ClassImpl<>(randString(), Set.of());
-        final Class<Membership<ExpertRole>> experts = new ClassImpl<>(randString(), Set.of());
-        final Resignified topicNamed = new ResignifiedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
-        final Resignified topicRenamed = new ResignifiedImpl(randString(), null, null);
-        final Signifier<String> name = new SignifierImpl<String>(randString(), "Ontologies Topic", english, topicNamed, topicRenamed);
-        final Class<Signifier<String>> names = new ClassImpl<>(randString(), Set.of(name));
-        final Resignified topicDescribed = new ResignifiedImpl(randString(), null, null);
-        final Resignified topicDescriptionUpdated = new ResignifiedImpl(randString(), null, null);
-        final Signifier<String> description = new SignifierImpl<String>(randString(), "Research into Ontologies", english, topicDescribed,
+        final StartedImpl from = new StartedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
+        final StoppedImpl to = new StoppedImpl(randString(), null, null);
+        final Class<MembershipImpl<OwnerRole>> owners = new ClassImpl<>(randString(), Set.of());
+        final Class<MembershipImpl<ExpertRole>> experts = new ClassImpl<>(randString(), Set.of());
+        final ResignifiedImpl topicNamed = new ResignifiedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
+        final ResignifiedImpl topicRenamed = new ResignifiedImpl(randString(), null, null);
+        final Signifier<String, ResignifiedImpl> name = new SignifierImpl<String>(randString(), "Ontologies Topic", english, topicNamed, topicRenamed);
+        final Class<Signifier<String, ResignifiedImpl>> names = new ClassImpl<>(randString(), Set.of(name));
+        final ResignifiedImpl topicDescribed = new ResignifiedImpl(randString(), null, null);
+        final ResignifiedImpl topicDescriptionUpdated = new ResignifiedImpl(randString(), null, null);
+        final Signifier<String, ResignifiedImpl> description = new SignifierImpl<String>(randString(), "Research into Ontologies", english, topicDescribed,
             topicDescriptionUpdated);
-        final Class<Signifier<String>> descriptions = new ClassImpl<>(randString(), Set.of(description));
+        final Class<Signifier<String, ResignifiedImpl>> descriptions = new ClassImpl<>(randString(), Set.of(description));
         final Class<Topic> subTopics = new ClassImpl<>(randString(), Set.of());
-        final Class<Membership<ContributorRole>> contributors = new ClassImpl<>(randString(), Set.of());
-        final Created sourceCreated = new CreatedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(1));
-        final Deleted sourceDeleted = new DeletedImpl(randString(), null, null);
+        final Class<MembershipImpl<ContributorRole>> contributors = new ClassImpl<>(randString(), Set.of());
+        final CreatedImpl sourceCreated = new CreatedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(1));
+        final DeletedImpl sourceDeleted = new DeletedImpl(randString(), null, null);
         final Source source = new Source(randString(), "http://www.google.com", sourceCreated, sourceDeleted, user1, user1);
         final Class<Source> sources = new ClassImpl<>(randString(), Set.of(source));
         final Individual<Started, Stopped> individual = new Thing(randString(), new StartedImpl(randString(), null, null),
@@ -127,26 +120,26 @@ public class TopicsTest {
         assertNotNull(topic1);
 
         // Create a Human as the owner, expert, and contributor
-        final Resignified namedFrom = new ResignifiedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
-        final Resignified namedTo = new ResignifiedImpl(randString(), null, null);
-        final Signifier<String> personName = new SignifierImpl<String>(randString(), "Alice", english, namedFrom, namedTo);
-        final Class<Signifier<String>> personNames = new ClassImpl<>(randString(), Set.of(personName));
+        final ResignifiedImpl namedFrom = new ResignifiedImpl(randString(), Instant.ofEpochSecond(0), Instant.ofEpochSecond(0));
+        final ResignifiedImpl namedTo = new ResignifiedImpl(randString(), null, null);
+        final Signifier<String, ResignifiedImpl> personName = new SignifierImpl<String>(randString(), "Alice", english, namedFrom, namedTo);
+        final Class<Signifier<String, ResignifiedImpl>> personNames = new ClassImpl<>(randString(), Set.of(personName));
 
-        final Human newOwner = new HumanImpl(randString(), birth, death, personNames, english, languages, dna);
-        final Human newExpert = newOwner;
-        final Human contributor = newOwner;
+        final var newOwner = new HumanImpl(randString(), birth, death, personNames, english, languages, dna);
+        final var newExpert = newOwner;
+        final var contributor = newOwner;
 
         // Create the owner temporal extent.
-        final Appointed ownerFrom = new AppointedImpl(randString(), Instant.ofEpochSecond(1000), Instant.ofEpochSecond(1000));
-        final Removed ownerTo = new RemovedImpl(randString(), null, null);
+        final AppointedImpl ownerFrom = new AppointedImpl(randString(), Instant.ofEpochSecond(1000), Instant.ofEpochSecond(1000));
+        final RemovedImpl ownerTo = new RemovedImpl(randString(), null, null);
 
         // Create the expert temporal extent.
-        final Appointed expertFrom = new AppointedImpl(randString(), Instant.ofEpochSecond(1000), Instant.ofEpochSecond(1000));
-        final Removed expertTo = new RemovedImpl(randString(), null, null);
+        final AppointedImpl expertFrom = new AppointedImpl(randString(), Instant.ofEpochSecond(1000), Instant.ofEpochSecond(1000));
+        final RemovedImpl expertTo = new RemovedImpl(randString(), null, null);
 
         // Create the contributor temporal extent.
-        final Appointed contributorFrom = new AppointedImpl(randString(), Instant.ofEpochSecond(1000), Instant.ofEpochSecond(1000));
-        final Removed contributorTo = new RemovedImpl(randString(), null, null);
+        final AppointedImpl contributorFrom = new AppointedImpl(randString(), Instant.ofEpochSecond(1000), Instant.ofEpochSecond(1000));
+        final RemovedImpl contributorTo = new RemovedImpl(randString(), null, null);
 
         // Create the necessary Memberships for each role.
         final MembershipImpl<OwnerRole> ownerMembership = new MembershipImpl<>(randString(), newOwner, ownerRole, ownerFrom, ownerTo);
@@ -182,12 +175,12 @@ public class TopicsTest {
      *            Removed
      * @return Topic
      */
-    private static Topic addContributor(final Topic t, final Membership<ContributorRole> contributor, final User updater) {
+    private static Topic addContributor(final Topic t, final MembershipImpl<ContributorRole> contributor, final User updater) {
 
-        final Set<Membership<ContributorRole>> contributorSet = new HashSet<>();
+        final Set<MembershipImpl<ContributorRole>> contributorSet = new HashSet<>();
         contributorSet.addAll(t.getContributors().getMembers());
         contributorSet.add(contributor);
-        final Class<Membership<ContributorRole>> contributors = new ClassImpl<>(t.getContributors().getIdentifier(), contributorSet);
+        final Class<MembershipImpl<ContributorRole>> contributors = new ClassImpl<>(t.getContributors().getIdentifier(), contributorSet);
 
         return new Topic(t.getIdentifier(), t.getActionsDescription(), t.getNames(), t.getDescriptions(), t.getSubTopics(), t.getOwners(), t.getExperts(),
             contributors, t.getSources(), t.getIndividuals(), t.getSourceReferences(), t.getIndividualReferences(), t.getBeginning(), t.getEnding(),
@@ -203,12 +196,12 @@ public class TopicsTest {
      *            Human
      * @return Topic
      */
-    private Topic addExpert(final Topic t, final Membership<ExpertRole> expert, final User updater) {
-        final Set<Membership<ExpertRole>> expertsSet = new HashSet<>();
+    private Topic addExpert(final Topic t, final MembershipImpl<ExpertRole> expert, final User updater) {
+        final Set<MembershipImpl<ExpertRole>> expertsSet = new HashSet<>();
         expertsSet.addAll(t.getExperts().getMembers());
         expertsSet.add(expert);
 
-        final Class<Membership<ExpertRole>> experts = new ClassImpl<>(randString(), expertsSet);
+        final Class<MembershipImpl<ExpertRole>> experts = new ClassImpl<>(randString(), expertsSet);
 
         return new Topic(t.getIdentifier(), t.getActionsDescription(), t.getNames(), t.getDescriptions(), t.getSubTopics(), t.getOwners(), experts,
             t.getContributors(), t.getSources(), t.getIndividuals(), t.getSourceReferences(), t.getIndividualReferences(), t.getBeginning(), t.getEnding(),
@@ -224,12 +217,12 @@ public class TopicsTest {
      *            Human
      * @return Topic
      */
-    private static Topic addOwner(final Topic t, final Membership<OwnerRole> owner, final User updater) {
-        final Set<Membership<OwnerRole>> ownersSet = new HashSet<>();
+    private static Topic addOwner(final Topic t, final MembershipImpl<OwnerRole> owner, final User updater) {
+        final Set<MembershipImpl<OwnerRole>> ownersSet = new HashSet<>();
         ownersSet.addAll(t.getOwners().getMembers());
         ownersSet.add(owner);
 
-        final Class<Membership<OwnerRole>> owners = new ClassImpl<>(randString(), ownersSet);
+        final Class<MembershipImpl<OwnerRole>> owners = new ClassImpl<>(randString(), ownersSet);
 
         return new Topic(t.getIdentifier(), t.getActionsDescription(), t.getNames(), t.getDescriptions(), t.getSubTopics(), owners, t.getExperts(),
             t.getContributors(), t.getSources(), t.getIndividuals(), t.getSourceReferences(), t.getIndividualReferences(), t.getBeginning(), t.getEnding(),
@@ -243,21 +236,21 @@ public class TopicsTest {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    private static class Topic implements Activity<Started, Stopped>, Named {
+    private static class Topic implements Activity<Started, Stopped>, Named<ResignifiedImpl> {
         private String identifier;
         private String actionsDescription;
-        private Class<Signifier<String>> names;
-        private Class<Signifier<String>> descriptions;
+        private Class<Signifier<String, ResignifiedImpl>> names;
+        private Class<Signifier<String, ResignifiedImpl>> descriptions;
         private Class<Topic> subTopics;
-        private Class<Membership<OwnerRole>> owners;
-        private Class<Membership<ExpertRole>> experts;
-        private Class<Membership<ContributorRole>> contributors;
+        private Class<MembershipImpl<OwnerRole>> owners;
+        private Class<MembershipImpl<ExpertRole>> experts;
+        private Class<MembershipImpl<ContributorRole>> contributors;
         private Class<Source> sources;
         private Class<Individual<? extends Event, ? extends Event>> individuals;
         private Class<SourceReference> sourceReferences;
         private Class<IndividualReference> individualReferences;
-        private Started beginning;
-        private Stopped ending;
+        private StartedImpl beginning;
+        private StoppedImpl ending;
         private User createdBy;
         private User updatedBy;
     }
@@ -349,13 +342,14 @@ public class TopicsTest {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    private static final class User implements Human {
+    @EqualsAndHashCode(callSuper = true)
+    private static final class User extends HumanImpl {
         private String identifier;
-        private Birth beginning;
-        private Death ending;
-        private Class<Signifier<String>> names;
-        private Language nativeLanguage;
-        private Class<Language> languages;
+        private BirthImpl beginning;
+        private DeathImpl ending;
+        private Class<Signifier<String, ResignifiedImpl>> names;
+        private LanguageImpl nativeLanguage;
+        private Class<LanguageImpl> languages;
         private DNA dna;
     }
 }
