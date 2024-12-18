@@ -5,7 +5,7 @@
 
     <groupId>uk.co.aosd.onto</groupId>
     <artifactId>foundation-ontology-mem</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <name>foundation-ontology-mem</name>
     <url>https://github.com/twalmsley/FoundationOntologyMem</url>
@@ -107,7 +107,7 @@
         <connection>scm:git:git@github.com:twalmsley/FoundationOntologyMem.git</connection>
         <developerConnection>scm:git:git@github.com:twalmsley/FoundationOntologyMem.git</developerConnection>
         <url>https://github.com/twalmsley/FoundationOntologyMem</url>
-        <tag>v0.0.2</tag>
+        <tag>v0.0.1</tag>
     </scm>
     <repositories>
         <repository>
