@@ -151,11 +151,11 @@ public class TriggersBroom {
     }
 
     /**
-     * Convert an Agglomerate of broom parts into a composition which is a broom.
+     * A KindOfActivity to convert an Agglomerate of broom parts into a composition which is a broom.
      *
      * @param parts
      *            An Agglomerate
-     * @return Broom
+     * @return Broom Ideally this would be a BroomAssemblyActivityRecord
      */
     private Broom assembleBroom(final AgglomerateImpl parts) {
         //
