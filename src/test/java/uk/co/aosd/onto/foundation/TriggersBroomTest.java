@@ -46,7 +46,7 @@ import uk.co.aosd.onto.reference.events.StoppedImpl;
  *
  * @author Tony Walmsley
  */
-public class TriggersBroom {
+public class TriggersBroomTest {
 
     private static final Created LIFE_START = new CreatedImpl(randStr(), Instant.parse("2024-01-01T12:00:00.00Z"), Instant.parse("2024-01-01T12:00:00.00Z"));
     private static final Destroyed UNKNOWN_END = new DestroyedImpl(randStr(), null, null);
@@ -86,8 +86,6 @@ public class TriggersBroom {
         final var activityFrom = new StartedImpl(randStr(), Instant.parse("2024-11-11T12:00:00.00Z"), Instant.parse("2024-11-11T12:00:00.00Z"));
         final var activityTo = new StoppedImpl(randStr(), Instant.parse("2024-11-11T12:30:00.00Z"), Instant.parse("2024-11-11T12:30:00.00Z"));
         final var activityRecord = replaceBristles(broom, new Bristles(randStr(), LIFE_START, UNKNOWN_END), activityFrom, activityTo);
-
-        JsonUtils.dumpJsonToConsole(activityRecord);
 
         assertSame(activityFrom, activityRecord.getBeginning());
         assertSame(activityTo, activityRecord.getEnding());
