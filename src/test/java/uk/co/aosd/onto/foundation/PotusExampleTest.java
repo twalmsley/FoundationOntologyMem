@@ -110,7 +110,7 @@ public class PotusExampleTest {
         // Create the US Government
         final Class<OrganisationImpl<CitizenOfTheUsa>> units = svc.createClass(randStr(), Set.of());
         final var usGovt = svc.createOrganisation(randStr(), citizenships, "To govern the USA", units, namesOfTheUsaGov, USA_FROM,
-            USA_TO);
+            USA_TO, usEnglish, languages);
 
         // Sub-organisations of the USA
         final Class<OrganisationImpl<CitizenOfTheUsa>> usaUnits = svc.createClass(randStr(), Set.of(usGovt));
@@ -119,12 +119,12 @@ public class PotusExampleTest {
 
         // Create the USA
         final var usaTerritory = new Territory(randStr(), USA_FROM, USA_TO);
-        final var usa = new Nation(randStr(), usaTerritory, presidentAppointments, citizenships, PURPOSE, namesOfTheUsa, usaUnits, USA_FROM, USA_TO);
+        final var usa = new USANation(randStr(), usaTerritory, presidentAppointments, citizenships, PURPOSE, namesOfTheUsa, usaUnits, USA_FROM, USA_TO);
 
         assertNotNull(usa);
 
         final var json = JsonUtils.writeJsonString(usa);
-        final var usa2 = JsonUtils.readJsonString(json, Nation.class);
+        final var usa2 = JsonUtils.readJsonString(json, USANation.class);
 
         assertEquals(usa, usa2);
     }
@@ -139,7 +139,7 @@ public class PotusExampleTest {
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-class Nation extends OrganisationImpl<CitizenOfTheUsa> {
+class USANation extends OrganisationImpl<CitizenOfTheUsa> {
     private String identifier;
     private Territory territory;
     private Class<MembershipImpl<PresidentOfTheUsa>> presidents;

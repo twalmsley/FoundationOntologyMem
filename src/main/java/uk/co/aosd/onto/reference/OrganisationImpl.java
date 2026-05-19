@@ -19,7 +19,7 @@ import uk.co.aosd.onto.signifying.Signifier;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganisationImpl<R extends Role> implements Organisation<FormedImpl, DissolvedImpl, ResignifiedImpl> {
+public class OrganisationImpl<R extends Role> implements Organisation<FormedImpl, DissolvedImpl, ResignifiedImpl, LanguageImpl> {
     private String identifier;
     private Class<MembershipImpl<R>> members;
     private String purpose;
@@ -27,4 +27,6 @@ public class OrganisationImpl<R extends Role> implements Organisation<FormedImpl
     private Class<Signifier<String, ResignifiedImpl>> names;
     private FormedImpl beginning;
     private DissolvedImpl ending;
+    private LanguageImpl nativeLanguage;
+    private Class<LanguageImpl> languages;
 }

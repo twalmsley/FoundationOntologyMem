@@ -85,7 +85,7 @@ public class OrganisationTest {
 
         // Create an organisation with memberships and no sub-units.
         final Class<OrganisationImpl<CeoRole>> units = svc.createClass(randString(), Set.of());
-        final var acme = svc.createOrganisation(randString(), acmeTeamMemberships, "ACME makes widgets", units, orgNames, incorporated, dissolved);
+        final var acme = svc.createOrganisation(randString(), acmeTeamMemberships, "ACME makes widgets", units, orgNames, incorporated, dissolved, english, languages);
 
         assertNotNull(acme);
 

@@ -70,8 +70,9 @@ public class OntologyServicesImpl {
     }
 
     public <R extends Role> OrganisationImpl<R> createOrganisation(final String identifier, final Class<MembershipImpl<R>> memberships, final String purpose,
-        final Class<OrganisationImpl<R>> units, final Class<Signifier<String, ResignifiedImpl>> names, final FormedImpl from, final DissolvedImpl to) {
-        return new OrganisationImpl<>(identifier, memberships, purpose, units, names, from, to);
+        final Class<OrganisationImpl<R>> units, final Class<Signifier<String, ResignifiedImpl>> names, final FormedImpl from, final DissolvedImpl to,
+        final LanguageImpl nativeLanguage, final Class<LanguageImpl> languages) {
+        return new OrganisationImpl<>(identifier, memberships, purpose, units, names, from, to, nativeLanguage, languages);
     }
 
     public PossibleWorldImpl createPossibleWorld(final String identifier, final Set<Individual<? extends Event, ? extends Event>> parts, final CreatedImpl from,
